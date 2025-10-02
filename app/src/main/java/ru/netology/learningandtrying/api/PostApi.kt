@@ -27,9 +27,6 @@ interface AuthApi {
 }
 
 interface PostApi {
-    @GET("posts")
-    suspend fun getAll(): List<Post>
-
     @GET("posts/latest")
     suspend fun getLatest(@Query("count") count: Int): Response<List<Post>>
 
@@ -50,10 +47,7 @@ interface PostApi {
 
     @GET("posts/{id}/after")
     suspend fun getAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
-
-    @GET("posts/{id}/newer")
-    suspend fun getNewer(@Path("id") id: Long): List<Post>
-
+    
     @Multipart
     @POST("media")
     suspend fun uploadFile(@Part file: MultipartBody.Part): Media

@@ -60,6 +60,7 @@ dependencies {
     implementation libs.coroutines.core
     implementation libs.imagepicker
     implementation libs.hilt
+    implementation(libs.androidx.room.paging)
     implementation libs.coroutines.android
     implementation libs.coroutines.viewmodel
     implementation libs.androidx.activity

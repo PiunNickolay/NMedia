@@ -48,17 +48,6 @@ class PostRepositoryImpl @Inject constructor(
         )
     ).flow.map { it.map(PostEntity::toDto) }
 
-    override suspend fun getAllAsync() {
-        try {
-            val posts = apiService.getAll()
-            dao.insert(posts.fromDtoToEntity())
-        } catch (e: IOException) {
-            throw NetworkError
-        } catch (e: Exception) {
-            throw UnknownError
-        }
-    }
-
     override suspend fun likeById(id: Long, likedByMe: Boolean): Post {
         dao.likeById(id)
         return try {
@@ -117,14 +106,6 @@ class PostRepositoryImpl @Inject constructor(
                 file.asRequestBody(),
             )
         )
-
-    override fun getNewer(id: Long): Flow<List<Post>> = flow {
-        while (true) {
-            val response = apiService.getNewer(id)
-            emit(response)
-            delay(10_000)
-        }
-    }.catch { e -> throw AppError.from(e) }
 
     override suspend fun insertNewPosts(posts: List<Post>) {
         dao.insert(posts.fromDtoToEntity())

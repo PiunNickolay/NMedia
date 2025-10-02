@@ -20,14 +20,14 @@ class PostRemoteMediator(
     private val postRemoteKeyDao: PostRemoteKeyDao,
     private val appDb: AppDb
 ) : RemoteMediator<Int, PostEntity>() {
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PostEntity>
     ): MediatorResult {
         try {
-            val result = when (loadType) {
+            val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    postDao.clear()
                     val id = postRemoteKeyDao.max()
                     if (id == null) {
                         postApi.getLatest(state.config.pageSize)
@@ -35,6 +35,7 @@ class PostRemoteMediator(
                         postApi.getAfter(id, state.config.pageSize)
                     }
                 }
+
 
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
 
@@ -45,53 +46,51 @@ class PostRemoteMediator(
 
             }
 
-            if (!result.isSuccessful) {
-                throw ApiError(result.code(), result.message())
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
             }
 
-            val body = result.body() ?: throw ApiError(
-                result.code(),
-                result.message()
+            val body = response.body() ?: throw ApiError(
+                response.code(),
+                response.message()
             )
 
             appDb.withTransaction {
-                when (loadType) {
-                    LoadType.REFRESH -> {
-                        postDao.clear()
-                        postRemoteKeyDao.insert(
-                            listOf(
+                if (body.isNotEmpty()) {
+                    when (loadType) {
+                        LoadType.REFRESH -> {
+                            postRemoteKeyDao.insert(
                                 PostRemoteKeyEntity(
                                     PostRemoteKeyEntity.KeyType.AFTER,
-                                    body.first().id,
-                                ),
+                                    body.first().id
+                                )
+                            )
+                            if (postRemoteKeyDao.min() == null) {
+                                postRemoteKeyDao.insert(
+                                    PostRemoteKeyEntity(
+                                        PostRemoteKeyEntity.KeyType.BEFORE,
+                                        body.last().id
+                                    )
+                                )
+                            }
+                        }
+
+                        LoadType.APPEND -> {
+                            postRemoteKeyDao.insert(
                                 PostRemoteKeyEntity(
                                     PostRemoteKeyEntity.KeyType.BEFORE,
                                     body.last().id
                                 )
                             )
-                        )
+                        }
+
+                        LoadType.PREPEND -> {
+
+                        }
                     }
 
-                    LoadType.PREPEND -> {
-                        postRemoteKeyDao.insert(
-                            PostRemoteKeyEntity(
-                                PostRemoteKeyEntity.KeyType.AFTER,
-                                body.first().id,
-                            ),
-                        )
-                    }
-
-                    LoadType.APPEND -> {
-                        postRemoteKeyDao.insert(
-                            PostRemoteKeyEntity(
-                                PostRemoteKeyEntity.KeyType.BEFORE,
-                                body.last().id
-                            )
-                        )
-                    }
+                    postDao.insert(body.map { PostEntity.fromDto(it) })
                 }
-
-                postDao.insert(body.map { PostEntity.fromDto(it) })
             }
 
             return MediatorResult.Success(body.isEmpty())

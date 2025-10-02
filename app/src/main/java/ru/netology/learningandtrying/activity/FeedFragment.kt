@@ -91,9 +91,6 @@ class FeedFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.data.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
-
-                val id = adapter.snapshot().items.firstOrNull()?.id ?: 0L
-                viewModel.setFirstId(id)
             }
         }
 
@@ -124,15 +121,8 @@ class FeedFragment : Fragment() {
                 .show()
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { count ->
-            binding.newPostsButton.isVisible = count > 0
-            if (count > 0) {
-                binding.newPostsButton.text = getString(R.string.new_posts, count)
-            }
-        }
-
         binding.newPostsButton.setOnClickListener {
-            viewModel.showNewPosts()
+            adapter.refresh()
             binding.list.smoothScrollToPosition(0)
             binding.newPostsButton.isVisible = false
         }

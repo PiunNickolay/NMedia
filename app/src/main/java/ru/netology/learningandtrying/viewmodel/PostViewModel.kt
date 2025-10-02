@@ -63,44 +63,10 @@ class PostViewModel @Inject constructor(
     val photo: LiveData<PhotoModel>
         get() = _photo
 
-    private val _newPosts = MutableLiveData<List<Post>>(emptyList())
-    val newPosts: LiveData<List<Post>> = _newPosts
-
-    private val firstId = MutableLiveData<Long>()
-    val newerCount: LiveData<Int> = firstId.switchMap { id ->
-        repository.getNewer(id)
-            .map { posts ->
-                _newPosts.postValue(posts)
-                posts.size
-            }
-            .catch { _state.postValue(FeedModelState(error = true)) }
-            .asLiveData(Dispatchers.Default)
-    }
-    fun setFirstId(id: Long) {
-        firstId.value = id
-    }
-
-    fun subscribeNewer(firstId: Long): LiveData<Int> =
-        repository.getNewer(firstId)
-            .map { posts ->
-                _newPosts.postValue(posts)
-                posts.size
-            }
-            .catch { _state.postValue(FeedModelState(error = true)) }
-            .asLiveData(Dispatchers.Default)
-
-    fun showNewPosts() {
-        viewModelScope.launch {
-            newPosts.value?.let {
-                repository.insertNewPosts(it)
-                _newPosts.value = emptyList()
-            }
-        }
-    }
-
     private val _state = MutableLiveData(FeedModelState())
     val state: LiveData<FeedModelState>
         get() = _state
+
     private val _postsCreated = SingleLiveEvent<Unit>()
     val postsCreated: LiveData<Unit>
         get() = _postsCreated
@@ -121,7 +87,6 @@ class PostViewModel @Inject constructor(
         _state.value = FeedModelState(loading = true)
         viewModelScope.launch {
             try {
-                repository.getAllAsync()
                 _state.value = FeedModelState()
             } catch (_: Exception) {
                 _state.value = FeedModelState(error = true)
@@ -190,7 +155,6 @@ class PostViewModel @Inject constructor(
         _state.value = FeedModelState(refreshing = true)
         viewModelScope.launch {
             try {
-                repository.getAllAsync()
                 _state.value = FeedModelState()
             } catch (_: Exception) {
                 _state.value = FeedModelState(error = true)
