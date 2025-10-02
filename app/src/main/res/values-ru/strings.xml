@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Нмедия</string>
+    <string name="nmedia">Нмедиа!</string>
+    <string name="avatar">аватарка</string>
+    <string name="menu">меню</string>
+    <string name="like">лайк</string>
+    <string name="share">поделиться</string>
+    <string name="post_save">сохранить</string>
+    <string name="post_text">Текст поста</string>
+    <string name="view">просмотры</string>
+    <string name="menu_remove">удалить</string>
+    <string name="menu_edit">редактировать</string>
+    <string name="error_empty_content">Поле не может быть пустым</string>
+    <string name="edit">Редактирование</string>
+    <string name="cancel">отменить</string>
+    <string name="edit_message">Редактировать сообщение</string>
+    <string name="chooser_share_post">Поделиться постом</string>
+    <string name="description_post_save">Сохранить пост</string>
+    <string name="play">Воспроизвести</string>
+    <string name="the_post_is_missing">Пост отсутсвует</string>
+    <string name="channel_remote_name">Серверные уведомления</string>
+    <string name="channel_remote_description">Уведомления с удалённого сервера</string>
+    <string name="notification_user_liked">Пользователь %1$s лайкнул %2$s\\ \'ый пост</string>
+    <string name="notification_new_post_title">%1$s опубликовал новый пост:</string>
+    <string name="network_error">Ошибка сети</string>
+    <string name="retry">повторить</string>
+    <string name="empty">Пустой</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="error_not_found">Не найден</string>
+    <string name="error_server">Ошибка сервера</string>
+    <string name="error_loading">Ошибка загрузки</string>
+    <string name="new_posts">Новые посты</string>
+    <string name="removePhoto">Удалить фото</string>
+    <string name="save">Сохранить</string>
+    <string name="image_picker_error">Ошибка выбора фото</string>
+    <string name="image">Картинка</string>
+    <string name="new_post">Новый пост</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегестрироваться</string>
+    <string name="logout">Выйти</string>
+    <string name="password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="loginError">Логин введён некорректно</string>
+</resources>

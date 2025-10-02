@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "963311756522",
+    "project_id": "learningandtrying-ce861",
+    "storage_bucket": "learningandtrying-ce861.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963311756522:android:b93191549c366f28a62393",
+        "android_client_info": {
+          "package_name": "ru.netology.learningandtrying"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxGUmguC-dPYKtlb4iMOakuXFzza7bsQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

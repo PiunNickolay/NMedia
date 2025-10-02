@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App.Widget.LikeCheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/color_like_selector</item>
+    </style>
+
+    <style name="App.Widget.LikeButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconTint">@color/color_like_selector</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:minWidth">@dimen/icon_button_min_size</item>
+        <item name="android:minHeight">@dimen/icon_button_min_size</item>
+    </style>
+
+    <style name="App.Widget.ShareButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconTint">@color/grey</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:minWidth">@dimen/icon_button_min_size</item>
+        <item name="android:minHeight">@dimen/icon_button_min_size</item>
+    </style>
+
+    <style name="App.Widget.ViewsButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconTint">@color/grey</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:minWidth">@dimen/icon_button_min_size</item>
+        <item name="android:minHeight">@dimen/icon_button_min_size</item>
+    </style>
+</resources>

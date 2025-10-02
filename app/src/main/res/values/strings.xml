@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">LearningAndTrying</string>
+    <string name="nmedia">Nmedia</string>
+    <string name="avatar">avatar</string>
+    <string name="menu">menu</string>
+    <string name="like">like</string>
+    <string name="share">share</string>
+    <string name="post_save">save</string>
+    <string name="post_text">Post Text</string>
+    <string name="view">view</string>
+    <string name="menu_remove">remove</string>
+    <string name="menu_edit">edit</string>
+    <string name="error_empty_content">Content can\'t be empty</string>
+    <string name="edit">edit</string>
+    <string name="cancel">cancel</string>
+    <string name="edit_message">Edit Message</string>
+    <string name="chooser_share_post">Share post</string>
+    <string name="description_post_save">Save</string>
+    <string name="play">Play</string>
+    <string name="the_post_is_missing">The post is missing</string>
+    <string name="channel_remote_name">Server notifications\n</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\\ \'s post</string>
+    <string name="notification_new_post_title">%1$s posted a new post:</string>
+    <string name="published" translatable="false">21 мая в 18:36</string>
+    <string name="network_error">Network error</string>
+    <string name="retry">retry</string>
+    <string name="empty">empty</string>
+    <string name="unknown_error">unknown_error</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="author" translatable="false">Нетология. Университет интернет-профессий будущег</string>
+    <string name="error_not_found">Not found</string>
+    <string name="error_server">Server error</string>
+    <string name="error_loading">Error loading</string>
+    <string name="new_posts">New posts</string>
+    <string name="removePhoto">Remote photo</string>
+    <string name="save">Save</string>
+    <string name="image_picker_error">Image picker error</string>
+    <string name="image">Image</string>
+    <string name="new_post">New post</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="logout">Logout</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="loginError">The username is specified incorrectly</string>
+</resources>
