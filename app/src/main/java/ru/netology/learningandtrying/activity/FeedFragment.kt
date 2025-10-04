@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.netology.learningandtrying.R
 import ru.netology.learningandtrying.activity.NewPostFragment.Companion.textArg
 import ru.netology.learningandtrying.adapter.OnInteractionListener
+import ru.netology.learningandtrying.adapter.PostLoadingStateAdapter
 import ru.netology.learningandtrying.adapter.PostsAdapter
 import ru.netology.learningandtrying.auth.AppAuth
 import ru.netology.learningandtrying.databinding.FragmentFeedBinding
@@ -87,7 +88,10 @@ class FeedFragment : Fragment() {
             }
 
         })
-        binding.list.adapter = adapter
+        binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = PostLoadingStateAdapter { adapter.retry() },
+            footer = PostLoadingStateAdapter { adapter.retry() }
+        )
         lifecycleScope.launchWhenCreated {
             viewModel.data.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
@@ -97,8 +101,6 @@ class FeedFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
                 binding.swipeRefreshLayout.isRefreshing = it.refresh is LoadState.Loading
-                        || it.append is LoadState.Loading
-                        || it.prepend is LoadState.Loading
             }
         }
 

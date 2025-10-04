@@ -5,6 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.insertSeparators
 import androidx.paging.map
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -15,8 +16,10 @@ import ru.netology.learningandtrying.api.PostApi
 import ru.netology.learningandtrying.dao.PostDao
 import ru.netology.learningandtrying.dao.PostRemoteKeyDao
 import ru.netology.learningandtrying.db.AppDb
+import ru.netology.learningandtrying.dto.Ad
 import ru.netology.learningandtrying.dto.Attachment
 import ru.netology.learningandtrying.dto.AttachmentType
+import ru.netology.learningandtrying.dto.FeedItem
 import ru.netology.learningandtrying.dto.Media
 import ru.netology.learningandtrying.dto.Post
 import ru.netology.learningandtrying.entity.PostEntity
@@ -28,6 +31,7 @@ import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.random.Random
 
 @Singleton
 class PostRepositoryImpl @Inject constructor(
@@ -37,7 +41,7 @@ class PostRepositoryImpl @Inject constructor(
     private val appDb: AppDb
 ) : PostRepository {
     @OptIn(ExperimentalPagingApi::class)
-    override val data: Flow<PagingData<Post>> = Pager(
+    override val data: Flow<PagingData<FeedItem>> = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false),
         pagingSourceFactory = { dao.getPagingSource() },
         remoteMediator = PostRemoteMediator(
@@ -46,7 +50,16 @@ class PostRepositoryImpl @Inject constructor(
             postRemoteKeyDao = postRemoteKeyDao,
             appDb = appDb
         )
-    ).flow.map { it.map(PostEntity::toDto) }
+    ).flow.map {
+        it.map(PostEntity::toDto)
+            .insertSeparators { previous, next ->
+                if (previous?.id?.rem(5) == 0L){
+                    Ad(Random.nextLong(), "figma.jpg")
+                }else{
+                    null
+                }
+            }
+    }
 
     override suspend fun likeById(id: Long, likedByMe: Boolean): Post {
         dao.likeById(id)

@@ -37,7 +37,10 @@ class PostRemoteMediator(
                 }
 
 
-                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+                LoadType.PREPEND -> {
+                    val id = postRemoteKeyDao.max() ?: return MediatorResult.Success(false)
+                    postApi.getAfter(id, state.config.pageSize)
+                }
 
                 LoadType.APPEND -> {
                     val id = postRemoteKeyDao.min() ?: return MediatorResult.Success(false)
@@ -85,7 +88,12 @@ class PostRemoteMediator(
                         }
 
                         LoadType.PREPEND -> {
-
+                            postRemoteKeyDao.insert(
+                                PostRemoteKeyEntity(
+                                    PostRemoteKeyEntity.KeyType.AFTER,
+                                    body.first().id
+                                )
+                            )
                         }
                     }
 
